@@ -5,6 +5,7 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
+#include "petersonlock.h"
 
 struct cpu cpus[NCPU];
 
@@ -679,5 +680,17 @@ procdump(void)
       state = "???";
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
+  }
+}
+
+struct petersonlock peterson_locks[MAX_PETERSON_LOCKS];
+
+void
+init_petersonlocks(void) {
+  for (int i = 0; i < MAX_PETERSON_LOCKS; i++) {
+    peterson_locks[i].active = 0;
+    peterson_locks[i].flag[0] = 0;
+    peterson_locks[i].flag[1] = 0;
+    peterson_locks[i].turn = 0;
   }
 }

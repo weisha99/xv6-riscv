@@ -185,5 +185,14 @@ void            virtio_disk_init(void);
 void            virtio_disk_rw(struct buf *, int);
 void            virtio_disk_intr(void);
 
+// petersonlock.c
+void            initpetersonlocks(void);
+int             sys_peterson_create(void);
+int             sys_peterson_acquire(int lock_id, int role);
+int             peterson_release(int lock_id, int role);
+int             peterson_destroy(int lock_id);
+
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))
+
+#define MAX_PETERSON_LOCKS 15

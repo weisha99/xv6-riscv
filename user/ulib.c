@@ -2,6 +2,7 @@
 #include "kernel/stat.h"
 #include "kernel/fcntl.h"
 #include "user/user.h"
+#include "user.h"
 
 //
 // wrapper so that it's OK if main() does not call exit().
@@ -144,4 +145,20 @@ void *
 memcpy(void *dst, const void *src, uint n)
 {
   return memmove(dst, src, n);
+}
+
+int peterson_create(void) {
+  return syscall(SYS_peterson_create);
+}
+
+int peterson_acquire(int lock_id, int role) {
+  return syscall(SYS_peterson_acquire, lock_id, role);
+}
+
+int peterson_release(int lock_id, int role) {
+  return syscall(SYS_peterson_release, lock_id, role);
+}
+
+int peterson_destroy(int lock_id) {
+  return syscall(SYS_peterson_destroy, lock_id);
 }
